@@ -219,7 +219,7 @@ def delete_user(user_id):
 @login_required
 @admin_required
 def box_office():
-    events = Event.query.filter(Event.date >= datetime.utcnow()).order_by(Event.date.asc()).all()
+    events = Event.query.order_by(Event.date.desc()).all()
     users = User.query.filter(User.email != 'admin@stadium.com').all()
     
     if request.method == 'POST':
