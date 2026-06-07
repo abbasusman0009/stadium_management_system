@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Box Office - Pantami Stadium{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h2>Box Office (Admin Booking)</h2>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+</div>
+
+<div class="form-container glass" style="max-width: 600px; margin: 0 auto;">
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Book tickets on behalf of customers for cash payments at the gate. This will bypass the online payment gateway.</p>
+    
+    <form method="POST" action="">
+        <div class="form-group">
+            <label for="event_id">Select Event</label>
+            <select id="event_id" name="event_id" class="form-control" required onchange="fetchSeats()">
+                <option value="">-- Select an Event --</option>
+                {% for event in events %}
+                    <option value="{{ event.id }}">{{ event.title }} ({{ event.date.strftime('%d %b, %Y') }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="seat_id">Select Available Seat</label>
+            <select id="seat_id" name="seat_id" class="form-control" required disabled>
+                <option value="">-- First select an event --</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="user_id">Select Customer</label>
+            <select id="user_id" name="user_id" class="form-control" required>
+                <option value="">-- Select Registered User --</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.name }} ({{ user.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; margin-top: 1rem;" id="submit-btn" disabled>Process Cash Booking</button>
+    </form>
+</div>
+
+<script>
+function fetchSeats() {
+    const eventId = document.getElementById('event_id').value;
+    const seatSelect = document.getElementById('seat_id');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    seatSelect.innerHTML = '<option value="">-- Loading... --</option>';
+    seatSelect.disabled = true;
+    submitBtn.disabled = true;
+    
+    if (!eventId) {
+        seatSelect.innerHTML = '<option value="">-- First select an event --</option>';
+        return;
+    }
+    
+    fetch(`/admin/api/seats/${eventId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.seats.length === 0) {
+                seatSelect.innerHTML = '<option value="">-- No available seats --</option>';
+            } else {
+                seatSelect.innerHTML = '<option value="">-- Select a Seat --</option>';
+                data.seats.forEach(seat => {
+                    const option = document.createElement('option');
+                    option.value = seat.id;
+                    option.textContent = `${seat.seat_no} - ₦${seat.price}`;
+                    seatSelect.appendChild(option);
+                });
+                seatSelect.disabled = false;
+                submitBtn.disabled = false;
+            }
+        });
+}
+</script>
+{% endblock %}

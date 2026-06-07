@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Edit Event - Pantami Stadium{% endblock %}
+
+{% block content %}
+<div class="form-container glass" style="max-width: 600px;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Edit Event</h2>
+    <form method="POST" action="" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Event Title</label>
+            <input type="text" id="title" name="title" class="form-control" value="{{ event.title }}" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="image">Update Event Image (Leave blank to keep current)</label>
+            <input type="file" id="image" name="image" class="form-control" accept="image/*">
+            {% if event.image_url %}
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Current Image: <a href="{{ event.image_url }}" target="_blank">View</a></p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="date">Event Date and Time</label>
+            <input type="datetime-local" id="date" name="date" class="form-control" value="{{ event.date.strftime('%Y-%m-%dT%H:%M') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="4">{{ event.description }}</textarea>
+        </div>
+        
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Note: Seat capacity and price cannot be edited here. To add or modify seats, use the "Manage Seats" feature.</p>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem;">Update Event</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline" style="width: 100%; font-size: 1.1rem; margin-top: 1rem; text-align: center;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

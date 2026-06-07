@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+.env
+stadium.db
+static/img/events/*
+!static/img/events/.gitkeep

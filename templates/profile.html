@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Profile - Pantami Stadium{% endblock %}
+
+{% block content %}
+<div class="form-container glass" style="max-width: 500px;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">My Profile</h2>
+    
+    <div style="background-color: var(--surface-light); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center;">
+        <span style="color: var(--text-muted); font-size: 0.9rem;">Account Email (Cannot be changed)</span>
+        <p style="font-weight: bold; font-size: 1.1rem; margin-top: 0.25rem;">{{ current_user.email }}</p>
+    </div>
+
+    <form method="POST" action="">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ current_user.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">New Password (leave blank to keep current)</label>
+            <input type="password" id="password" name="password" class="form-control" minlength="6">
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; margin-top: 1rem;">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

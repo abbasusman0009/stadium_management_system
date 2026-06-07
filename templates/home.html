@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero glass" style="border-radius: 12px; margin-bottom: 3rem;">
+    <h1>Welcome to Pantami Stadium</h1>
+    <p>Experience the thrill of live sports, concerts, and community events. Secure your seats online today with our fast and secure booking system.</p>
+    <a href="#events" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.75rem 1.5rem;">View Upcoming Events</a>
+</div>
+
+<h2 id="events" style="margin-bottom: 1rem;">Upcoming Events</h2>
+<div class="event-grid">
+    {% for event in events %}
+    <div class="event-card">
+        <img src="{{ event.image_url or url_for('static', filename='img/stadium-default.jpg') }}" alt="{{ event.title }}" class="event-image">
+        <div class="event-content">
+            <h3 class="event-title">{{ event.title }}</h3>
+            <span class="event-date">{{ event.date.strftime('%B %d, %Y - %I:%M %p') }}</span>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">
+                {{ event.description[:100] }}{% if event.description|length > 100 %}...{% endif %}
+            </p>
+            <a href="{{ url_for('booking.event_details', event_id=event.id) }}" class="btn btn-primary" style="width: 100%; text-align: center;">Book Seats</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="glass" style="grid-column: 1 / -1; padding: 3rem; text-align: center; border-radius: 12px;">
+        <h3 style="color: var(--text-muted);">No upcoming events scheduled at the moment.</h3>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

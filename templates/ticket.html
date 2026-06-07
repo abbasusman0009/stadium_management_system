@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Your Ticket - Pantami Stadium{% endblock %}
+
+{% block content %}
+<div class="form-container glass" style="max-width: 450px; padding: 0; overflow: hidden; background-color: #fff; color: #000;">
+    <div style="background-color: var(--primary); color: #fff; padding: 1.5rem; text-align: center;">
+        <h2 style="margin: 0; font-size: 1.5rem;">Pantami Stadium Ticket</h2>
+        <p style="margin-top: 0.5rem; opacity: 0.9;">Ticket ID: #{{ ticket.id }}</p>
+    </div>
+    
+    <div style="padding: 2rem; text-align: center;">
+        <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">{{ event.title }}</h3>
+        <p style="color: #666; margin-bottom: 1.5rem;">{{ event.date.strftime('%B %d, %Y at %I:%M %p') }}</p>
+        
+        <div style="display: flex; justify-content: space-around; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc; padding: 1rem 0; margin-bottom: 2rem;">
+            <div>
+                <span style="display: block; font-size: 0.8rem; color: #888; text-transform: uppercase;">Seat Number</span>
+                <span style="font-size: 1.2rem; font-weight: bold; color: var(--primary);">{{ booking.seat.seat_no }}</span>
+            </div>
+            <div>
+                <span style="display: block; font-size: 0.8rem; color: #888; text-transform: uppercase;">Price</span>
+                <span style="font-size: 1.2rem; font-weight: bold;">₦{{ booking.seat.price }}</span>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <img src="{{ url_for('static', filename=ticket.qr_code_path) }}" alt="Ticket QR Code" style="width: 200px; height: 200px; object-fit: contain;">
+        </div>
+        
+        <p style="font-size: 0.8rem; color: #888;">Please present this QR code at the stadium gate.</p>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+    <button onclick="window.print()" class="btn btn-primary" style="margin-right: 1rem;">Print Ticket</button>
+    <a href="{{ url_for('home') }}" class="btn btn-outline">Back to Home</a>
+</div>
+{% endblock %}

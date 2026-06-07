@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Checkout - Pantami Stadium{% endblock %}
+
+{% block content %}
+<div class="form-container glass" style="max-width: 500px;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Secure Checkout</h2>
+    
+    <div style="background-color: var(--surface-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid var(--primary);">
+        <h4 style="margin-bottom: 0.5rem;">Order Summary</h4>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="color: var(--text-muted);">Event:</span>
+            <span>{{ seat.event.title }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="color: var(--text-muted);">Seat:</span>
+            <span>{{ seat.seat_no }}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); font-weight: bold; font-size: 1.2rem;">
+            <span>Total to Pay:</span>
+            <span style="color: var(--primary);">₦{{ seat.price }}</span>
+        </div>
+    </div>
+
+    <form method="POST" action="">
+        <div class="form-group">
+            <label>Payment Method (Mock Environment)</label>
+            <select class="form-control" disabled>
+                <option>Paystack Test Environment</option>
+            </select>
+            <small style="color: var(--text-muted); display: block; margin-top: 0.5rem;">This will simulate a successful payment and generate your digital ticket instantly.</small>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; padding: 1rem;">Pay ₦{{ seat.price }}</button>
+    </form>
+</div>
+{% endblock %}
