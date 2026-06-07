@@ -5,3 +5,5 @@ Flask-Bcrypt
 qrcode
 requests
 Pillow
+gunicorn
+psycopg2-binary
